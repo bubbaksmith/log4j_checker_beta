@@ -149,5 +149,12 @@ if [ "$JAVA" == "" ]; then
   warning "Some apps bundle the vulnerable library in their own compiled package, so 'java' might not be installed but one such apps could still be vulnerable."
 fi
 echo
-warning "This whole script is not 100% proof you are not vulnerable, but a strong hint"
+  ok "Checking for DataDog"
+  datadog=$(dpkg-query -l | grep datadog)
+  if [ $datadog ]; then
+    warning "$datadog"
+    echo "Datadog requires version ~> 7.32.2 or ~> 6.32.2"
+  else
+    ok "DataDog not installed"
+  fi
 echo
